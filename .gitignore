@@ -9,6 +9,7 @@ yarn-error.log*
 .history
 coverage
 .cache
+tree.txt
 
 # Runtime data
 pids
