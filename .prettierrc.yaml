@@ -1,0 +1,9 @@
+# https://prettier.io/docs/en/ignore.html
+
+parser: "typescript"
+trailingComma: "all"
+printWidth: 120
+arrowParens: "always"
+jsxBracketSameLine: false
+endOfLine: "lf"
+proseWrap: "always"
