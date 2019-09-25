@@ -32,7 +32,8 @@
     "paths": {
       "*": ["./node_modules/*/index"],
       "@/pages/*": ["src/pages/*"],
-      "@/style/*": ["src/style/*"]
+      "@/style/*": ["src/style/*"],
+      "@/assets/*": ["src/assets/*"]
     },
     "typeRoots": ["./typings", "./node_modules/@types"],
     "allowSyntheticDefaultImports": true,

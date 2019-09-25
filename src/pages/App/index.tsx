@@ -5,13 +5,15 @@ import React, { FunctionComponent } from "react";
 import "@/style/reset.css";
 import "@/style/base.css";
 
+import logo from "@/assets/logo.svg";
+
 import "./index.css";
 
 const App: FunctionComponent = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={require("./../../assets/logo.svg")} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/page/App/index.tsx</code> and save to reload.
         </p>

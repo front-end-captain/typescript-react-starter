@@ -33,6 +33,7 @@ const getAlias = () => {
   return {
     "@/pages": path.join(appSrc, "/pages"),
     "@/style": path.join(appSrc, "/style"),
+    "@/assets": path.join(appSrc, "/assets"),
   };
 };
 
