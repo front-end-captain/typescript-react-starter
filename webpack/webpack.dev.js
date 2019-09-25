@@ -35,11 +35,6 @@ const developmentConfig = {
         test: /\.ts[x]$/,
         loader: "source-map-loader",
       },
-      {
-        test: /\.css.ts$/,
-        loader: require.resolve("stylelint-custom-processor-loader"),
-        exclude: /node_modules/,
-      },
     ],
   },
 

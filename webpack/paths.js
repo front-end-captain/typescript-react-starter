@@ -32,16 +32,7 @@ const getAlias = () => {
   const appSrc = resolveApp("src");
   return {
     "@/pages": path.join(appSrc, "/pages"),
-    "@/components": path.join(appSrc, "/components"),
-    "@/utils": path.join(appSrc, "/utils"),
-    "@/constants": path.join(appSrc, "/constants"),
-    "@/router": path.join(appSrc, "/router"),
-    "@/api": path.join(appSrc, "/service/api"),
-    "@/types": path.join(appSrc, "/types"),
-    "@/hooks": path.join(appSrc, "/hooks"),
     "@/style": path.join(appSrc, "/style"),
-    "@/service": path.join(appSrc, "/service"),
-    "URL": path.join(appSrc, "/service/URL.ts"),
   };
 };
 

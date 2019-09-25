@@ -1,7 +1,5 @@
 const { getAlias } = require("./paths");
 
-const tsImportPluginFactory = require("ts-import-plugin");
-const createStyledComponentsTransformer = require("typescript-plugin-styled-components").default;
 const autoprefixer = require("autoprefixer");
 const PostcssFlexBugsFixes = require("postcss-flexbugs-fixes");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -37,22 +35,6 @@ module.exports = {
         enforce: "pre",
         test: /\.ts[x]?$/,
         loader: "ts-loader",
-        options: {
-          transpileOnly: true,
-          getCustomTransformers: () => ({
-            before: [
-              tsImportPluginFactory({
-                libraryName: "antd",
-                libraryDirectory: "es",
-                style: (name) => `${name}/style/css.js`,
-              }),
-              createStyledComponentsTransformer({
-                displayName: true,
-                minify: true,
-              }),
-            ],
-          }),
-        },
         exclude: /node_modules/,
       },
       {

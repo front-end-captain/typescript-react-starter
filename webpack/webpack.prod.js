@@ -10,7 +10,7 @@ const baseConfig = require("./webpack.base");
 
 const ASSETS_PATH = process.env.ASSETS_PATH;
 
-const VENDORS = ["react", "react-dom", "react-router", "react-router-dom", "styled-components"];
+const VENDORS = ["react", "react-dom"];
 
 const productionConfig = {
   mode: "production",
