@@ -40,7 +40,9 @@
       "@/api/*": ["src/service/api/*"],
       "@/types/*": ["src/types/*"],
       "@/style/*": ["src/style/*"],
-      "@/service/*": ["src/service/*"]
+      "@/service/*": ["src/service/*"],
+      "@/library/*": ["src/library/*"],
+      "@/model/*": ["src/model/*"]
     },
     "typeRoots": ["./typings", "./node_modules/@types"],
     "allowSyntheticDefaultImports": true,

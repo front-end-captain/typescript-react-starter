@@ -41,6 +41,8 @@ const getAlias = () => {
     "@/hooks": path.join(appSrc, "/hooks"),
     "@/style": path.join(appSrc, "/style"),
     "@/service": path.join(appSrc, "/service"),
+    "@/library": path.join(appSrc, "/library"),
+    "@/model": path.join(appSrc, "/model"),
     "URL": path.join(appSrc, "/service/URL.ts"),
   };
 };
