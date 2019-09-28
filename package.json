@@ -2,7 +2,7 @@
   "name": "typescript-react-starter",
   "version": "1.0.0",
   "description": "a project starter base on typescript and react",
-  "main": "index.js",
+  "main": "src/index.tsx",
   "scripts": {
     "start": "npm run dev",
     "dev": "node webpack/start.js TEST=false LOCAL=false",
@@ -10,19 +10,14 @@
     "build-local": "node webpack/build.js TEST=true LOCAL=true",
     "build-test": "node webpack/build.js TEST=true LOCAL=false",
     "build-analysis": "node webpack/build.js TEST=false LOCAL=false ANALYSIS=true",
-    "lint-ts": "eslint -c src/.eslintrc src/index.tsx src/**/**/*.ts src/**/**/*.tsx src/**/*.ts src/**/**/**/*.ts",
-    "lint-style": "stylelint src/components/**/*.css.ts src/pages/**/*.css.ts src/style/*.css.ts",
-    "lint": "npm run lint-ts && npm run lint-style",
-    "test": "jest --config jest.config.js",
-    "test:update": "jest -u"
+    "lint": "eslint -c src/.eslintrc src/index.tsx src/**/**/*.ts src/**/**/*.tsx src/**/*.ts src/**/**/**/*.ts"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.100tal.com/moli_libu_product_fe/typescript-react-starter.git"
+    "url": "https://github.com/front-end-captain/typescript-react-starter.git"
   },
   "keywords": [
     "react",
-    "styled-components",
     "hooks",
     "typescript"
   ],
@@ -76,8 +71,6 @@
     "react-dev-utils": "^9.0.3",
     "react-test-renderer": "^16.8.6",
     "source-map-loader": "^0.2.4",
-    "stylelint": "^10.0.1",
-    "stylelint-config-standard": "^18.3.0",
     "ts-loader": "^6.1.0",
     "typescript": "^3.6.3",
     "url-loader": "^1.1.2",

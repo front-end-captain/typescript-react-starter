@@ -1,6 +1,6 @@
 # https://prettier.io/docs/en/ignore.html
 
-parser: "typescript"
+parser: "babel"
 trailingComma: "all"
 printWidth: 120
 arrowParens: "always"
