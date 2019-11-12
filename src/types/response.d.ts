@@ -1,4 +1,4 @@
-export interface ResponseData<T> {
+export interface ResponseData<T extends unknown> {
   /**
    * 状态码
    *
@@ -9,14 +9,14 @@ export interface ResponseData<T> {
   /**
    * 消息
    *
-   * @type {number}
+   * @type {string}
    */
   msg?: string;
 
   /**
    * 数据
    *
-   * @type {T}
+   * @type {T extends unknown}
    */
   data: T;
 }
