@@ -1,6 +1,5 @@
 import { ComponentType, lazy } from "react";
 import { RouteComponentProps } from "react-router-dom";
-import { flattenRoutes } from "@/utils/index";
 
 const ExamPapers = lazy(() =>
   import(/* webpackChunkName: "papers" */ "@/pages/Papers").then((m) => {
@@ -74,6 +73,4 @@ const routes: Array<RouteItem> = [
   },
 ];
 
-const flatRoutes = flattenRoutes(routes);
-
-export { flatRoutes, routes };
+export { routes };

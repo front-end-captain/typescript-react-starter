@@ -4,9 +4,12 @@ import React, { FunctionComponent } from "react";
 import { Breadcrumb } from "antd";
 import pathToRegexp from "path-to-regexp";
 
-import { flatRoutes } from "@/router/config";
+import { routes } from "@/router/config";
+import { flattenRoutes } from "@/utils/index";
 
 import { disabledColor, linkColor } from "@/style/theme.css";
+
+const flattedRoutes = flattenRoutes(routes);
 
 const BreadCrumbComponent: FunctionComponent<RouteComponentProps> = ({ location }) => {
   const pathSnippets = location.pathname.split("/").filter((i) => i);
@@ -14,7 +17,7 @@ const BreadCrumbComponent: FunctionComponent<RouteComponentProps> = ({ location 
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
 
-    const matchUrl = flatRoutes.find((route) => {
+    const matchUrl = flattedRoutes.find((route) => {
       const reg = pathToRegexp(route.path, [], { strict: true });
       return reg.test(url);
     });
