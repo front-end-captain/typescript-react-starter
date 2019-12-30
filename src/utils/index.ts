@@ -1,5 +1,3 @@
-import { RouteItem } from "@/router/config";
-
 export function parseRemainingMillisecond(millisecond: number): string {
   const millisecondABS = Math.abs(millisecond);
   const millisecondOfHour = 60 * 60 * 1000;
@@ -17,20 +15,3 @@ export function parseRemainingMillisecond(millisecond: number): string {
 
   return `${adaptHours}:${adaptMinutes}:${adaptSeconds}`;
 }
-
-/**
- * 将嵌套结构的路由表转换为一维的路由列表
- *
- * @see router/config.ts
- */
-export const flattenRoutes: (routes: Array<RouteItem>) => Array<RouteItem> = function(routes) {
-  let routeList: Array<RouteItem> = [];
-  routes.forEach((route) => {
-    routeList.push(route);
-    if (Array.isArray(route.children) && route.children.length > 0) {
-      routeList = routeList.concat(flattenRoutes(route.children));
-    }
-  });
-
-  return routeList;
-};

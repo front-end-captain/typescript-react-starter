@@ -1,23 +1,26 @@
-import { Link, withRouter, RouteComponentProps } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import React, { FunctionComponent } from "react";
 
 import { Breadcrumb } from "antd";
 import pathToRegexp from "path-to-regexp";
 
-import { routes } from "@/router/config";
-import { flattenRoutes } from "@/utils/index";
-
 import { disabledColor, linkColor } from "@/style/theme.css";
 
-const flattedRoutes = flattenRoutes(routes);
+import { BasicRouterItem } from "@/router/lib/definitions";
 
-const BreadCrumbComponent: FunctionComponent<RouteComponentProps> = ({ location }) => {
-  const pathSnippets = location.pathname.split("/").filter((i) => i);
+interface BreadCrumbComponentProps {
+  routeList: BasicRouterItem[];
+}
+
+const BreadCrumb: FunctionComponent<BreadCrumbComponentProps> = ({ routeList }) => {
+  const { pathname } = useLocation();
+
+  const pathSnippets = pathname.split("/").filter((i) => i);
 
   const extraBreadcrumbItems = pathSnippets.map((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
 
-    const matchUrl = flattedRoutes.find((route) => {
+    const matchUrl = routeList.find((route) => {
       const reg = pathToRegexp(route.path, [], { strict: true });
       return reg.test(url);
     });
@@ -28,7 +31,7 @@ const BreadCrumbComponent: FunctionComponent<RouteComponentProps> = ({ location 
 
     return (
       <Breadcrumb.Item key={url}>
-        <Link to={url} style={{ color: location.pathname === url ? linkColor : disabledColor }}>
+        <Link to={url} style={{ color: pathname === url ? linkColor : disabledColor }}>
           {matchUrl ? matchUrl.name : ""}
         </Link>
       </Breadcrumb.Item>
@@ -42,7 +45,5 @@ const BreadCrumbComponent: FunctionComponent<RouteComponentProps> = ({ location 
 
   return <Breadcrumb style={style}>{extraBreadcrumbItems}</Breadcrumb>;
 };
-
-const BreadCrumb = withRouter(BreadCrumbComponent);
 
 export { BreadCrumb };

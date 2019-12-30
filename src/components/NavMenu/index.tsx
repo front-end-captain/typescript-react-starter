@@ -1,30 +1,58 @@
-/* eslint-disable operator-linebreak */
 import React, { FunctionComponent } from "react";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
 import ClassNames from "classnames";
 
-import { routes } from "@/router/config";
-
 import { NavMenuWrapper } from "./index.css";
+
+// import { BasicRouterItem } from "@/router/lib/definitions";
+import { routeConfig } from "@/router/config";
+import { NestedRouteItem } from "@/router/lib/definitions";
 
 interface NavMenuProps {
   pathname: string;
   navMenuCollapsedStatus: boolean;
+  // routesList: BasicRouterItem[];
 }
 
+const routesList = routeConfig.routes;
+
 const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedStatus }) => {
-  const permissionNav = routes.filter((route) => {
-    if (!route.name) {
-      return false;
+  const topPath = `/${pathname.split("/")[1]}`;
+  const adaptedTopPath = topPath === "/" ? routesList[0].path : topPath;
+
+  const renderMenu = (routesList?: NestedRouteItem[]) => {
+    if (routesList === undefined) {
+      return null;
     }
 
-    return route;
-  });
+    return routesList.map((routeItem) => {
+      if (Array.isArray(routeItem.children) && routeItem.children.length > 0) {
+        return (
+          <Menu.SubMenu
+            key={routeItem.path}
+            title={
+              <>
+                <Icon type={routeItem.icon} />
+                <span>{routeItem.name}</span>
+              </>
+            }
+          >
+            {renderMenu(routeItem.children)}
+          </Menu.SubMenu>
+        );
+      }
 
-  const topPath = `/${pathname.split("/")[1]}`;
-  const adaptedTopPath = topPath === "/" ? permissionNav[0].path : topPath;
-
+      return (
+        <Menu.Item key={routeItem.path}>
+          <Link to={routeItem.path} className="nav-link">
+            {routeItem.icon && <Icon type={routeItem.icon} />}
+            <span>{routeItem.name}</span>
+          </Link>
+        </Menu.Item>
+      );
+    });
+  };
 
   return (
     <NavMenuWrapper id="nav_menu_wrapper" className={ClassNames({ "nav-menu-collapsed": !navMenuCollapsedStatus })}>
@@ -40,42 +68,7 @@ const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedSt
         mode="inline"
         inlineCollapsed={!navMenuCollapsedStatus}
       >
-        {permissionNav.map((routeItem) => {
-          if (Array.isArray(routeItem.children) && routeItem.children.length > 0) {
-            return (
-              <Menu.SubMenu
-                key={routeItem.path}
-                title={
-                  <>
-                    <Icon type={routeItem.icon} />
-                    <span>{routeItem.name}</span>
-                  </>
-                }
-              >
-                {Array.isArray(routeItem.children) &&
-                  routeItem.children.map((child) => {
-                    return (
-                      <Menu.Item key={child.path}>
-                        <Link to={child.path} className="nav-link">
-                          <Icon type={child.icon} />
-                          <span>{child.name}</span>
-                        </Link>
-                      </Menu.Item>
-                    );
-                  })}
-              </Menu.SubMenu>
-            );
-          }
-
-          return (
-            <Menu.Item key={routeItem.path}>
-              <Link to={routeItem.path} className="nav-link">
-                <Icon type={routeItem.icon} />
-                <span>{routeItem.name}</span>
-              </Link>
-            </Menu.Item>
-          );
-        })}
+        {renderMenu(routesList)}
       </Menu>
     </NavMenuWrapper>
   );

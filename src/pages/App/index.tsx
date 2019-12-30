@@ -1,22 +1,26 @@
 import { hot } from "react-hot-loader/root";
 
 import React, { FunctionComponent } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 
-import { LubanRouter } from "luban-router";
+import { LubanRouter } from "@/router/lib";
 
 import { Layout } from "./components/layout";
 
 import "@/style/reset.css";
 import "@/style/base.css";
 
-import { routes } from "@/router/config";
+import { routeConfig } from "@/router/config";
+// import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+const getUserLocalRole = () => 1;
 
 const App: FunctionComponent = () => {
   return (
-    <Router>
-      <Layout router={() => <LubanRouter routes={routes} />} />
-    </Router>
+    <LubanRouter
+      config={routeConfig}
+      role={getUserLocalRole()}
+      customRender={(routerTable, routeList) => <Layout table={routerTable} routeList={routeList} />}
+    />
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ReactElement, Suspense, useState } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import { useChange } from "@/hooks/useChange";
 
@@ -12,21 +12,15 @@ import { PageFooter } from "./pageFooter";
 
 import { BackendLayoutWrapper, BackendGlobalStyle } from "./../index.css";
 
-interface LayoutProps extends RouteComponentProps {
-  router: () => ReactElement;
+import { BasicRouterItem } from "@/router/lib/definitions";
+
+interface LayoutProps {
+  table: ReactElement;
+  routeList: BasicRouterItem[];
 }
 
-/**
- * 匹配到 /classroom/:classId 不渲染 <Header /> 和 <BreadCrumb />
- * 同时内容宽度占视口的 90% 且最小宽度为 980px
- *
- * 匹配到 /classroom 不渲染 <BreadCrumb />
- */
-const LayoutComponent: FunctionComponent<LayoutProps> = (props) => {
-  const {
-    router,
-    location: { pathname },
-  } = props;
+const Layout: FunctionComponent<LayoutProps> = ({ table, routeList }) => {
+  const { pathname } = useLocation();
 
   useChange(pathname);
 
@@ -41,9 +35,9 @@ const LayoutComponent: FunctionComponent<LayoutProps> = (props) => {
           navMenuCollapsedStatus={navMenuCollapsed}
           toggleNavMenuCollapse={() => setNavMenuCollapsed(!navMenuCollapsed)}
         />
-        <BreadCrumb />
+        <BreadCrumb routeList={routeList} />
         <div className="main-container">
-          <Suspense fallback={<Loading />}>{router()}</Suspense>
+          <Suspense fallback={<Loading />}>{table}</Suspense>
         </div>
         <PageFooter />
       </div>
@@ -51,7 +45,5 @@ const LayoutComponent: FunctionComponent<LayoutProps> = (props) => {
     </BackendLayoutWrapper>
   );
 };
-
-const Layout = withRouter(LayoutComponent);
 
 export { Layout };
