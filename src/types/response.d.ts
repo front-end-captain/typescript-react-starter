@@ -1,24 +1,24 @@
-export interface ResponseData<T extends unknown> {
+export interface ResponseData<T extends unknown = {}> {
   /**
    * 状态码
    *
    * @type {number}
    */
-  code: number;
+  readonly code: number;
 
   /**
    * 消息
    *
    * @type {string}
    */
-  msg?: string;
+  readonly msg?: string;
 
   /**
    * 数据
    *
-   * @type {T extends unknown}
+   * @type {T extends any = {}}
    */
-  data: T;
+  readonly data: T;
 }
 
 export interface ResponsePagination {

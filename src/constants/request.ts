@@ -1,6 +1,6 @@
 import { ResponseData } from "@/types/response";
 
-export const DEFAULT_RESPONSE_DATA: ResponseData<{}> = {
+export const DEFAULT_RESPONSE_DATA: ResponseData = {
   code: 0,
   data: {},
 };

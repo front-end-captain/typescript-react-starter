@@ -4,7 +4,7 @@ import axios, { AxiosPromise, AxiosResponse, Canceler } from "axios";
 import { ResponseData } from "@/types/response";
 import { DEFAULT_RESPONSE_DATA, REQUEST_SUCCESS_CODE_REG } from "@/constants/request";
 
-export type FetchCallback<D, P> = (params: P) => AxiosPromise<ResponseData<D>>;
+export type FetchCallback<D extends unknown = {}, P extends object = {}> = (params: P) => AxiosPromise<ResponseData<D>>;
 type Callback = () => void;
 
 type Fetching = undefined | boolean;
@@ -27,13 +27,17 @@ const { CancelToken } = axios;
  * @type D ResponseData.data @see @/types/response `ResponseData.data`
  * @type P request params
  */
-const useTriggerRequest = <D, P>(fetchCallback: FetchCallback<D, P>, callback?: Callback, params?: P) => {
+const useTriggerRequest = <D extends unknown = {}, P extends object = {}>(
+  fetchCallback: FetchCallback<D, P>,
+  callback?: Callback,
+  params?: P,
+) => {
   const [fetching, setFetching] = useState<Fetching>(undefined);
   const [data, setData] = useState<D>(({} as any) as D);
   const [error, setError] = useState<RequestError>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  const [responseData, setResponseData] = useState<ResponseData<D>>(DEFAULT_RESPONSE_DATA);
+  const [responseData, setResponseData] = useState<ResponseData<D>>(DEFAULT_RESPONSE_DATA as ResponseData<D>);
 
   const [reload, setReload] = useState<boolean>(false);
   const prevReloadRef = useRef(reload);
@@ -95,7 +99,7 @@ const useTriggerRequest = <D, P>(fetchCallback: FetchCallback<D, P>, callback?: 
   };
 
   const clearResponseData = () => {
-    setResponseData(DEFAULT_RESPONSE_DATA);
+    setResponseData(DEFAULT_RESPONSE_DATA as ResponseData<D>);
   };
 
   const clearData = () => {
@@ -128,7 +132,11 @@ const useTriggerRequest = <D, P>(fetchCallback: FetchCallback<D, P>, callback?: 
  * @param {P | undefined} params
  * @param {Callback | undefined} callback
  */
-const useRequest = <D, P>(fetchCallback: FetchCallback<D, P>, params?: P, callback?: Callback) => {
+const useRequest = <D extends unknown = {}, P extends object = {}>(
+  fetchCallback: FetchCallback<D, P>,
+  params?: P,
+  callback?: Callback,
+) => {
   const { doSendRequest, cancelRequest, ...reset } = useTriggerRequest<D, P>(fetchCallback, callback, params);
 
   const realParams: P = typeof params === "object" ? params : (({} as any) as P);

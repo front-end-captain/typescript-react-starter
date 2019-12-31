@@ -9,7 +9,7 @@ import { StandardTableWrapper } from "@/style/common.css";
 import { RouteComponentProps } from "react-router";
 import { FormComponentProps } from "antd/lib/form";
 import { ColumnProps } from "antd/lib/table";
-import { PaperListItem } from "@/types/paper";
+import { PaperAPI } from "@/types/paper";
 
 const { Item: FormItem } = Form;
 
@@ -93,7 +93,7 @@ const ExamPapersComponent: FunctionComponent<ExamPapersProps> = (props) => {
     });
   };
 
-  const papersTableColumn: Array<ColumnProps<PaperListItem>> = [
+  const papersTableColumn: Array<ColumnProps<PaperAPI.PaperListItem>> = [
     {
       title: "试卷名称",
       dataIndex: "name",
@@ -146,7 +146,7 @@ const ExamPapersComponent: FunctionComponent<ExamPapersProps> = (props) => {
         </Button>
       </div>
 
-      <Table<PaperListItem>
+      <Table<PaperAPI.PaperListItem>
         loading={loading}
         columns={papersTableColumn}
         dataSource={data}

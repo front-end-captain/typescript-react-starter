@@ -9,7 +9,10 @@ const defaultTotal = 0;
 
 const DefaultPagination: ResponsePagination = { total: defaultTotal, page: defaultPage, pageSize: defaultSize };
 
-const useTable = <D, P>(fetchCallback: FetchCallback<D, P>, searchConditions?: P) => {
+const useTable = <D extends unknown = {}, P extends object = {}>(
+  fetchCallback: FetchCallback<D, P>,
+  searchConditions?: P,
+) => {
   const realSearchCondition = typeof searchConditions === "object" ? searchConditions : (({} as any) as P);
 
   const [currentPage, setCurrentPage] = useState<number>(defaultPage);
