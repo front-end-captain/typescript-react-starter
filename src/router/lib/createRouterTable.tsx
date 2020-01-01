@@ -5,7 +5,8 @@ import { NestedRouteItem } from "./definitions";
 
 function checkAuthority(authority: Array<string | number>, role: string | number | Array<string | number>): boolean {
   if (Array.isArray(role)) {
-    return authority.some((item, index) => item === role[index]);
+    const roleSet = new Set(role);
+    return authority.filter((item) => roleSet.has(item)).length > 0;
   }
 
   return authority.includes(role);
