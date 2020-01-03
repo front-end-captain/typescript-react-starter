@@ -1,6 +1,8 @@
 import React, { ReactElement, isValidElement } from "react";
 import { Route } from "react-router-dom";
 
+import { DefaultNotFound } from "./defaultNotFound";
+
 import { NestedRouteItem } from "./definitions";
 
 function checkAuthority(authority: Array<string | number>, role: string | number | Array<string | number>): boolean {
@@ -15,6 +17,7 @@ function checkAuthority(authority: Array<string | number>, role: string | number
 function createRouterTable(
   routes: Array<NestedRouteItem>,
   role?: string | number | Array<string | number>,
+  NotFound?: ReactElement,
 ): Array<ReactElement> {
   const table: ReactElement[] = [];
 
@@ -33,7 +36,9 @@ function createRouterTable(
     }
   });
 
-  table.push(<Route path="*" key="*" exact render={() => <div>404 not found</div>} />);
+  table.push(
+    <Route path="*" key="*" exact render={() => (isValidElement(NotFound) ? NotFound : <DefaultNotFound />)} />,
+  );
 
   return table;
 }

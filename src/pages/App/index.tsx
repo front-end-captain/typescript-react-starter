@@ -12,15 +12,23 @@ import "@/style/base.css";
 import { routeConfig } from "@/router/config";
 // import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-const getUserLocalRole = () => 1;
+const getUserLocalRole = () => [1, 2, 3];
+
+// const NotFound: FunctionComponent = () => {
+//   return <div>hello, not found</div>;
+// };
 
 const App: FunctionComponent = () => {
+  // return <LubanRouter config={routeConfig} />;
+
   return (
     <LubanRouter
       config={routeConfig}
       role={getUserLocalRole()}
-      customRender={(routerTable, routeList) => <Layout table={routerTable} routeList={routeList} />}
-    />
+      // notFound={<NotFound />}
+    >
+      {(routerTable, routeList) => <Layout table={routerTable} routeList={routeList} />}
+    </LubanRouter>
   );
 };
 

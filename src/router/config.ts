@@ -2,42 +2,40 @@ import { lazy } from "react";
 
 import { RouteConfig } from "./lib/definitions";
 
+import { ScoreSub2 as ScoreSubPage2 } from "@/pages/Score/scoreSub2";
+
 // TODO 使用 lazy API 加载的组件必须使用 <Suspense /> 包裹起来
 
 const ExamPapers = lazy(() =>
-  import(/* webpackChunkName: "papers" */ "@/pages/Papers").then((m) => {
-    return { default: m.ExamPapers };
-  }),
+  import(/* webpackChunkName: "papers" */ "@/pages/Papers").then((m) => ({ default: m.ExamPapers })),
 );
 
 const Index = lazy(() =>
-  import(/* webpackChunkName: "index" */ "@/pages/Index").then((m) => {
-    return { default: m.Index };
-  }),
+  import(/* webpackChunkName: "index" */ "@/pages/Index").then((m) => ({ default: m.Index })),
 );
 
 const Score = lazy(() =>
-  import(/* webpackChunkName: "papers" */ "@/pages/Score").then((m) => {
+  import(/* webpackChunkName: "score" */ "@/pages/Score").then((m) => {
     return { default: m.Score };
   }),
 );
 
 const User = lazy(() =>
-  import(/* webpackChunkName: "papers" */ "@/pages/User").then((m) => {
+  import(/* webpackChunkName: "user" */ "@/pages/User").then((m) => {
     return { default: m.User };
   }),
 );
 
 const ScoreSubPage1 = lazy(() =>
-  import(/* webpackChunkName: "papers" */ "@/pages/Score/scoreSub1").then((m) => {
+  import(/* webpackChunkName: "score" */ "@/pages/Score/scoreSub1").then((m) => {
     return { default: m.ScoreSub1 };
   }),
 );
-const ScoreSubPage2 = lazy(() =>
-  import(/* webpackChunkName: "papers" */ "@/pages/Score/scoreSub2").then((m) => {
-    return { default: m.ScoreSub2 };
-  }),
-);
+// const ScoreSubPage2 = lazy(() =>
+//   import(/* webpackChunkName: "score" */ "@/pages/Score/scoreSub2").then((m) => {
+//     return { default: m.ScoreSub2 };
+//   }),
+// );
 
 const routeConfig: RouteConfig = {
   routes: [
@@ -77,6 +75,7 @@ const routeConfig: RouteConfig = {
               name: "子成绩列表2",
               path: "/papers/scores/sub2",
               component: ScoreSubPage2,
+              authority: [2],
             },
           ],
         },
