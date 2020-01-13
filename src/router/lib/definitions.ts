@@ -8,6 +8,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 type RouteMode = "browser" | "hash";
 type HashType = "slash" | "noslash" | "hashbang";
+export type Role = string | number | Array<string | number>;
 
 export interface RouteConfig {
   /**
@@ -28,7 +29,7 @@ export interface RouteConfig {
    * + "slash" - Creates hashes like #/ and #/sunshine/lollipops
    * + "noslash" - Creates hashes like # and #sunshine/lollipops
    * + "hashbang" - Creates “ajax crawlable” (deprecated by Google) hashes like #!/ and #!/sunshine/lollipops
-   * 
+   *
    * @type {"slash" | "noslash" | "hashbang"}
    * @default {string} "slash"
    */
@@ -84,6 +85,8 @@ export interface BasicRouterItem {
    * @type {string}
    */
   icon?: string;
+
+  meta?: Record<string | number | symbol, any>;
 }
 
 export interface NestedRouteItem extends BasicRouterItem {

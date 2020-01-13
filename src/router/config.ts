@@ -3,6 +3,7 @@ import { lazy } from "react";
 import { RouteConfig } from "./lib/definitions";
 
 import { ScoreSub2 as ScoreSubPage2 } from "@/pages/Score/scoreSub2";
+import { NotFound } from "@/pages/NotFound";
 
 // TODO 使用 lazy API 加载的组件必须使用 <Suspense /> 包裹起来
 
@@ -45,6 +46,9 @@ const routeConfig: RouteConfig = {
       icon: "home",
       component: Index,
       authority: [1, 2, 3],
+      meta: {
+        name: "this name in meta",
+      },
     },
     {
       name: "列表",
@@ -87,6 +91,11 @@ const routeConfig: RouteConfig = {
       path: "/user",
       component: User,
       authority: [2],
+    },
+    {
+      name: "404",
+      path: "404",
+      component: NotFound,
     },
   ],
 };
