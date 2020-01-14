@@ -1,9 +1,9 @@
 import React, { ReactElement, FunctionComponent, useMemo, Suspense } from "react";
-import { Switch, BrowserRouter, HashRouter, HashRouterProps } from "react-router-dom";
+import { Switch, BrowserRouter, HashRouter, HashRouterProps, useLocation } from "react-router-dom";
 
-import { RouteConfig, BasicRouterItem, Role } from "./definitions";
+import { RouteConfig, BasicRouterItem, Role, NestedRouteItem } from "./definitions";
 
-import { flattenRoutes } from "./util";
+import { flattenRoutes, filterUnPermissionRoute } from "./util";
 
 import { createRouterTable } from "./createRouterTable";
 import { DefaultNotFound } from "./defaultNotFound";
@@ -11,7 +11,11 @@ import { DefaultNotFound } from "./defaultNotFound";
 interface LubanRouterProps {
   config: RouteConfig;
   role?: Role;
-  children?: (table: ReactElement, routes: Array<BasicRouterItem>) => ReactElement;
+  children?: (
+    table: ReactElement,
+    routes: Array<BasicRouterItem>,
+    permissionRouteList: Array<NestedRouteItem>,
+  ) => ReactElement;
 }
 
 const LubanRouter: FunctionComponent<LubanRouterProps> = ({ config, role, children }) => {
@@ -36,10 +40,16 @@ const LubanRouter: FunctionComponent<LubanRouterProps> = ({ config, role, childr
     </Suspense>
   );
 
+  let permissionRouteList: Array<NestedRouteItem> = [];
+  if (role) {
+    permissionRouteList = filterUnPermissionRoute(routes, role);
+  }
+
   if (typeof children === "function") {
     routerTable = children(
       <Switch>{createRouterTable(flattenRouteList, role, notFoundComponent)}</Switch>,
       flattenRouteList,
+      permissionRouteList,
     );
   }
 

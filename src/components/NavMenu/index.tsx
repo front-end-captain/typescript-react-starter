@@ -5,21 +5,17 @@ import ClassNames from "classnames";
 
 import { NavMenuWrapper } from "./index.css";
 
-// import { BasicRouterItem } from "@/router/lib/definitions";
-import { routeConfig } from "@/router/config";
 import { NestedRouteItem } from "@/router/lib/definitions";
 
 interface NavMenuProps {
   pathname: string;
   navMenuCollapsedStatus: boolean;
-  // routesList: BasicRouterItem[];
+  permissionRouteList: Array<NestedRouteItem>;
 }
 
-const routesList = routeConfig.routes;
-
-const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedStatus }) => {
+const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedStatus, permissionRouteList }) => {
   const topPath = `/${pathname.split("/")[1]}`;
-  const adaptedTopPath = topPath === "/" ? routesList[0].path : topPath;
+  const adaptedTopPath = topPath === "/" ? permissionRouteList[0].path : topPath;
 
   const renderMenu = (routesList?: NestedRouteItem[]) => {
     if (routesList === undefined) {
@@ -33,8 +29,10 @@ const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedSt
             key={routeItem.path}
             title={
               <>
-                <Icon type={routeItem.icon} />
-                <span>{routeItem.name}</span>
+                <Link to={routeItem.path} className="nav-link">
+                  {routeItem.icon && <Icon type={routeItem.icon} />}
+                  <span>{routeItem.name}</span>
+                </Link>
               </>
             }
           >
@@ -68,7 +66,7 @@ const NavMenu: FunctionComponent<NavMenuProps> = ({ pathname, navMenuCollapsedSt
         mode="inline"
         inlineCollapsed={!navMenuCollapsedStatus}
       >
-        {renderMenu(routesList)}
+        {renderMenu(permissionRouteList)}
       </Menu>
     </NavMenuWrapper>
   );

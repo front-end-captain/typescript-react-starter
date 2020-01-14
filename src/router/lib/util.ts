@@ -1,4 +1,24 @@
-import { NestedRouteItem, BasicRouterItem } from "./definitions";
+/* eslint-disable no-param-reassign */
+import { NestedRouteItem, BasicRouterItem, Role } from "./definitions";
+
+function checkAuthority(authority: Array<string | number>, role: Role): boolean {
+  if (Array.isArray(role)) {
+    const roleSet = new Set(role);
+    return authority.filter((item) => roleSet.has(item)).length > 0;
+  }
+
+  return authority.includes(role);
+}
+
+function filterUnPermissionRoute(routes: Array<NestedRouteItem>, role: Role): Array<NestedRouteItem> {
+  return routes.filter((route) => {
+    if (Array.isArray(route.children) && route.children.length > 0) {
+      return route.children = filterUnPermissionRoute(route.children, role);
+    }
+
+    return checkAuthority(route.authority || [], role);
+  });
+}
 
 /**
  * 将嵌套结构的路由表转换为一维的路由列表
@@ -17,4 +37,4 @@ function flattenRoutes(routes: Array<NestedRouteItem>): Array<BasicRouterItem> {
   return routeList;
 }
 
-export { flattenRoutes };
+export { flattenRoutes, checkAuthority, filterUnPermissionRoute };

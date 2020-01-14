@@ -12,14 +12,15 @@ import { PageFooter } from "./pageFooter";
 
 import { BackendLayoutWrapper, BackendGlobalStyle } from "./../index.css";
 
-import { BasicRouterItem } from "@/router/lib/definitions";
+import { BasicRouterItem, NestedRouteItem } from "@/router/lib/definitions";
 
 interface LayoutProps {
   table: ReactElement;
   routeList: BasicRouterItem[];
+  permissionRouteList: Array<NestedRouteItem>;
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({ table, routeList }) => {
+const Layout: FunctionComponent<LayoutProps> = ({ table, routeList, permissionRouteList }) => {
   const { pathname } = useLocation();
 
   useChange(pathname);
@@ -29,7 +30,11 @@ const Layout: FunctionComponent<LayoutProps> = ({ table, routeList }) => {
   return (
     <BackendLayoutWrapper>
       <BackendGlobalStyle />
-      <NavMenu pathname={pathname} navMenuCollapsedStatus={navMenuCollapsed} />
+      <NavMenu
+        pathname={pathname}
+        navMenuCollapsedStatus={navMenuCollapsed}
+        permissionRouteList={permissionRouteList}
+      />
       <div className="backend-layout-container">
         <PageHeader
           navMenuCollapsedStatus={navMenuCollapsed}

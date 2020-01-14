@@ -10,18 +10,16 @@ import "@/style/reset.css";
 import "@/style/base.css";
 
 import { routeConfig } from "@/router/config";
-
-const getUserLocalRole = () => [1, 2, 3];
+import { getLocalUserRole } from "@/utils/index";
 
 const App: FunctionComponent = () => {
   // return <LubanRouter config={routeConfig} />;
 
   return (
-    <LubanRouter
-      config={routeConfig}
-      role={getUserLocalRole()}
-    >
-      {(routerTable, routeList) => <Layout table={routerTable} routeList={routeList} />}
+    <LubanRouter config={routeConfig} role={getLocalUserRole()}>
+      {(routerTable, routeList, permissionRouteList) => (
+        <Layout table={routerTable} routeList={routeList} permissionRouteList={permissionRouteList} />
+      )}
     </LubanRouter>
   );
 };

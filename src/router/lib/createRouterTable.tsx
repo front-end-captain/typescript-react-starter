@@ -3,14 +3,7 @@ import { Route, RouteComponentProps } from "react-router-dom";
 
 import { NestedRouteItem, Role } from "./definitions";
 
-function checkAuthority(authority: Array<string | number>, role: Role): boolean {
-  if (Array.isArray(role)) {
-    const roleSet = new Set(role);
-    return authority.filter((item) => roleSet.has(item)).length > 0;
-  }
-
-  return authority.includes(role);
-}
+import { checkAuthority } from "./util";
 
 function createRouterTable(
   routes: Array<NestedRouteItem>,

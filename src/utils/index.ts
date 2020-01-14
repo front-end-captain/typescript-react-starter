@@ -15,3 +15,7 @@ export function parseRemainingMillisecond(millisecond: number): string {
 
   return `${adaptHours}:${adaptMinutes}:${adaptSeconds}`;
 }
+
+export function getLocalUserRole(): number[] {
+  return [1];
+}
