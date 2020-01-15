@@ -1,9 +1,39 @@
 import React, { ReactElement, isValidElement, ComponentType } from "react";
-import { Route, RouteComponentProps } from "react-router-dom";
+import { Route, RouteComponentProps, Redirect } from "react-router-dom";
 
 import { NestedRouteItem, Role } from "./definitions";
 
 import { checkAuthority } from "./util";
+
+function renderRouteComponent(route: NestedRouteItem, props: RouteComponentProps<any>, role?: Role): ReactElement {
+  const { component: Component, authority, redirect, meta } = route;
+
+  let redirectPath = "/404";
+
+  if (typeof Component === "undefined") {
+    return <Redirect to={redirectPath} />;
+  }
+
+  if (!isValidElement(Component)) {
+    return <Redirect to={redirectPath} />;
+  }
+
+  if (typeof role === "undefined") {
+    return <Component {...props} meta={meta} />;
+  }
+
+  if (checkAuthority(role, authority)) {
+    return <Component {...props} meta={meta} />;
+  }
+
+  if (typeof redirect === "string") {
+    redirectPath = redirect;
+  }
+  if (typeof redirect === "function") {
+    redirectPath = redirect(role);
+  }
+  return <Redirect to={redirectPath} />;
+}
 
 function createRouterTable(
   routes: Array<NestedRouteItem>,
@@ -15,36 +45,27 @@ function createRouterTable(
   const reversedRoutes: Array<NestedRouteItem> = Array.from(routes).reverse();
 
   reversedRoutes.forEach((route) => {
-    const { path, component: Component, exact = true, strict = true, authority, meta = {} } = route;
-    const routeKey = Array.isArray(path) ? path[0] : path;
+    const { path, component: Component, exact = true, strict = true } = route;
 
     if (typeof Component === "undefined") {
       return;
     }
 
-    if (isValidElement(Component)) {
+    if (!isValidElement(Component)) {
       return;
     }
 
     const routeComponent = (
       <Route
-        key={routeKey}
+        key={path}
         exact={exact}
         path={path}
         strict={strict}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-        // @ts-ignore
-        render={(props: RouteComponentProps) => <Component {...props} meta={meta} />}
+        render={(props: RouteComponentProps) => renderRouteComponent(route, props, role)}
       />
     );
 
-    if (typeof role !== "undefined" && checkAuthority(role, authority)) {
-      table.push(routeComponent);
-    }
-
-    if (typeof role === "undefined") {
-      table.push(routeComponent);
-    }
+    table.push(routeComponent);
   });
 
   const notFoundRoute = <Route path="*" key="*" exact component={NotFound} />;

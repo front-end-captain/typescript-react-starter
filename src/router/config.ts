@@ -92,6 +92,7 @@ const routeConfig: RouteConfig = {
       path: "/user",
       component: User,
       authority: [2],
+      redirect: "/",
     },
     {
       name: "404",

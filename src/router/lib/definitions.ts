@@ -3,8 +3,15 @@
 // Definitions by: front-end-captain <https://github.com/front-end-captain>
 // TypeScript Version: 3.6.3
 
-import { ComponentType, LazyExoticComponent, ReactElement } from "react";
+import { ComponentType, LazyExoticComponent, ReactElement, FunctionComponent, ComponentClass } from "react";
 import { RouteComponentProps } from "react-router-dom";
+
+export type RouteMetaData = Record<string | number | symbol, any>;
+type DefaultRouteProps = { meta?: RouteMetaData } & RouteComponentProps<any>;
+export type RouteComponent =
+  | ComponentType<DefaultRouteProps>
+  | ComponentType<DefaultRouteProps>
+  | LazyExoticComponent<FunctionComponent<any> | ComponentClass<any>>;
 
 /**
  * @description uses the HTML5 history API or uses the hash portion of the URL
@@ -84,22 +91,34 @@ export interface BasicRouterItem {
    * @type {ComponentType<RouteComponentProps<any>> | ComponentType<any>}
    * @default {} () => null;
    */
-  component?: ComponentType<RouteComponentProps<any>> | ComponentType<any> | LazyExoticComponent<any>;
+  component?: RouteComponent;
+
   /**
    * @description roles that can access this route
    * if this value is undefined, mean all role can access this route
    * if this value is empty array, mean any role can't access this route
-   * 
+   *
    * @type {Array<string | number>}
    * @default {Array} []
    */
   authority?: Array<string | number>;
+
+  /**
+   * @description redirect path when access unauthority route
+   * if this value is undefined, will redirect to 404 page when access route
+   * @type {string | Function}
+   */
+  redirect?: string | ((role: Role) => string);
+
   /**
    * @description this route's icon
    * @type {string}
    */
   icon?: string;
 
+  /**
+   * @description route meta data, will pass to route component props
+   */
   meta?: Record<string | number | symbol, any>;
 }
 
