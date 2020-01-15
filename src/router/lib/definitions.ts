@@ -3,11 +3,22 @@
 // Definitions by: front-end-captain <https://github.com/front-end-captain>
 // TypeScript Version: 3.6.3
 
-import { ComponentType, LazyExoticComponent } from "react";
+import { ComponentType, LazyExoticComponent, ReactElement } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * @description uses the HTML5 history API or uses the hash portion of the URL
+ */
 type RouteMode = "browser" | "hash";
+
+/**
+ * @description The type of encoding to use for window.location.hash.
+ */
 type HashType = "slash" | "noslash" | "hashbang";
+
+/**
+ * @description user role of application
+ */
 export type Role = string | number | Array<string | number>;
 
 export interface RouteConfig {
@@ -76,6 +87,9 @@ export interface BasicRouterItem {
   component?: ComponentType<RouteComponentProps<any>> | ComponentType<any> | LazyExoticComponent<any>;
   /**
    * @description roles that can access this route
+   * if this value is undefined, mean all role can access this route
+   * if this value is empty array, mean any role can't access this route
+   * 
    * @type {Array<string | number>}
    * @default {Array} []
    */
@@ -94,4 +108,14 @@ export interface NestedRouteItem extends BasicRouterItem {
    * @description this route's child route
    */
   children?: Array<NestedRouteItem>;
+}
+
+export interface LubanRouterProps {
+  config: RouteConfig;
+  role?: Role;
+  children?: (
+    table: ReactElement,
+    routes: Array<BasicRouterItem>,
+    permissionRouteList: Array<NestedRouteItem>,
+  ) => ReactElement;
 }

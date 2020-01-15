@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { NestedRouteItem, BasicRouterItem, Role } from "./definitions";
 
-function checkAuthority(authority: Array<string | number>, role: Role): boolean {
+function checkAuthority(role: Role, authority?: Array<string | number>): boolean {
+  if (typeof authority === "undefined") {
+    return true;
+  }
+
   if (Array.isArray(role)) {
     const roleSet = new Set(role);
     return authority.filter((item) => roleSet.has(item)).length > 0;
@@ -12,11 +16,15 @@ function checkAuthority(authority: Array<string | number>, role: Role): boolean 
 
 function filterUnPermissionRoute(routes: Array<NestedRouteItem>, role: Role): Array<NestedRouteItem> {
   return routes.filter((route) => {
-    if (Array.isArray(route.children) && route.children.length > 0) {
-      return route.children = filterUnPermissionRoute(route.children, role);
+    if (route.path.includes("404")) {
+      return false;
     }
 
-    return checkAuthority(route.authority || [], role);
+    if (Array.isArray(route.children) && route.children.length > 0) {
+      route.children = filterUnPermissionRoute(route.children, role);
+    }
+
+    return checkAuthority(role, route.authority);
   });
 }
 

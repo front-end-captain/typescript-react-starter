@@ -38,6 +38,7 @@ const ScoreSubPage1 = lazy(() =>
 //   }),
 // );
 
+// NOTE 子路由的权限集合必然是父级路由权限集合的子集
 const routeConfig: RouteConfig = {
   routes: [
     {

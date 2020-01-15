@@ -1,29 +1,18 @@
 import React, { ReactElement, FunctionComponent, useMemo, Suspense } from "react";
-import { Switch, BrowserRouter, HashRouter, HashRouterProps, useLocation } from "react-router-dom";
-
-import { RouteConfig, BasicRouterItem, Role, NestedRouteItem } from "./definitions";
+import { Switch, BrowserRouter, HashRouter, HashRouterProps } from "react-router-dom";
 
 import { flattenRoutes, filterUnPermissionRoute } from "./util";
-
 import { createRouterTable } from "./createRouterTable";
 import { DefaultNotFound } from "./defaultNotFound";
 
-interface LubanRouterProps {
-  config: RouteConfig;
-  role?: Role;
-  children?: (
-    table: ReactElement,
-    routes: Array<BasicRouterItem>,
-    permissionRouteList: Array<NestedRouteItem>,
-  ) => ReactElement;
-}
+import { NestedRouteItem, LubanRouterProps } from "./definitions";
 
 const LubanRouter: FunctionComponent<LubanRouterProps> = ({ config, role, children }) => {
   const { routes, mode = "browser", basename = "/", hashType = "slash" } = config;
 
   const flattenRouteList = useMemo(() => flattenRoutes(routes), [routes]);
 
-  const notFoundRouteItem = flattenRouteList.find((route) => route.path.includes("404"));
+  const notFoundRouteItem = routes.find((route) => route.path.includes("404"));
 
   const notFoundComponent = notFoundRouteItem ? notFoundRouteItem.component : DefaultNotFound;
 

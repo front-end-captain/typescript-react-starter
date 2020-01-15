@@ -26,22 +26,28 @@ function createRouterTable(
       return;
     }
 
-    if (Array.isArray(authority) && typeof role !== "undefined" && checkAuthority(authority, role)) {
-      table.push(
-        <Route
-          key={routeKey}
-          exact={exact}
-          path={path}
-          strict={strict}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
-          render={(props: RouteComponentProps) => <Component {...props} meta={meta} />}
-        />,
-      );
+    const routeComponent = (
+      <Route
+        key={routeKey}
+        exact={exact}
+        path={path}
+        strict={strict}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        render={(props: RouteComponentProps) => <Component {...props} meta={meta} />}
+      />
+    );
+
+    if (Array.isArray(authority) && typeof role !== "undefined" && checkAuthority(role, authority)) {
+      table.push(routeComponent);
+    }
+
+    if (typeof role === "undefined") {
+      table.push(routeComponent);
     }
   });
 
-  const notFoundRoute =  <Route path="*" key="*" exact component={NotFound} />;
+  const notFoundRoute = <Route path="*" key="*" exact component={NotFound} />;
 
   table.push(notFoundRoute);
 
