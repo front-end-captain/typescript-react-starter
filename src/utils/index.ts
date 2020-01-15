@@ -17,5 +17,5 @@ export function parseRemainingMillisecond(millisecond: number): string {
 }
 
 export function getLocalUserRole(): number[] {
-  return [1];
+  return [1, 2, 3];
 }

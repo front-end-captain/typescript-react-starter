@@ -38,7 +38,7 @@ function createRouterTable(
       />
     );
 
-    if (Array.isArray(authority) && typeof role !== "undefined" && checkAuthority(role, authority)) {
+    if (typeof role !== "undefined" && checkAuthority(role, authority)) {
       table.push(routeComponent);
     }
 
