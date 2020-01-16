@@ -10,18 +10,17 @@ export type RouteMetaData = Record<string | number | symbol, any>;
 type DefaultRouteProps = { meta?: RouteMetaData } & RouteComponentProps<any>;
 export type RouteComponent =
   | ComponentType<DefaultRouteProps>
-  | ComponentType<DefaultRouteProps>
   | LazyExoticComponent<FunctionComponent<any> | ComponentClass<any>>;
 
 /**
  * @description uses the HTML5 history API or uses the hash portion of the URL
  */
-type RouteMode = "browser" | "hash";
+export type RouteMode = "browser" | "hash";
 
 /**
  * @description The type of encoding to use for window.location.hash.
  */
-type HashType = "slash" | "noslash" | "hashbang";
+export type HashType = "slash" | "noslash" | "hashbang";
 
 /**
  * @description user role of application
@@ -133,8 +132,8 @@ export interface LubanRouterProps {
   config: RouteConfig;
   role?: Role;
   children?: (
-    table: ReactElement,
-    routes: Array<BasicRouterItem>,
+    table: ReactElement<any>[],
+    extraBreadcrumbRouteList: Array<BasicRouterItem>,
     permissionRouteList: Array<NestedRouteItem>,
   ) => ReactElement;
 }

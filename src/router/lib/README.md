@@ -138,12 +138,18 @@ ReactDOM.render(<LubanRouter config={config} />, root);
      * 如果此值缺省，404 路径将作为默认的重定向路径
      * @type {string | Function}
      */
-    redirect?: string | ((role: Role) => string);
+    redirect?: string | ((role?: Role) => string);
     /**
      * @description 路由图标，在创建菜单导航时会用到
      * @type {string}
      */
     icon?: string;
+
+    /**
+     * @description 路由记录，将会挂载到对应的路由组件的 props 上
+     */
+    meta?: Record<string | number | symbol, any>;
+
     /**
      * @description 子路由
      */

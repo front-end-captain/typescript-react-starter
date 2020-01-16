@@ -14,7 +14,7 @@ function renderRouteComponent(route: NestedRouteItem, props: RouteComponentProps
     return <Redirect to={redirectPath} />;
   }
 
-  if (!isValidElement(Component)) {
+  if (isValidElement(Component)) {
     return <Redirect to={redirectPath} />;
   }
 
@@ -51,7 +51,7 @@ function createRouterTable(
       return;
     }
 
-    if (!isValidElement(Component)) {
+    if (isValidElement(Component)) {
       return;
     }
 

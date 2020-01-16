@@ -17,8 +17,12 @@ const App: FunctionComponent = () => {
 
   return (
     <LubanRouter config={routeConfig} role={getLocalUserRole()}>
-      {(routerTable, routeList, permissionRouteList) => (
-        <Layout table={routerTable} routeList={routeList} permissionRouteList={permissionRouteList} />
+      {(routerTable, extraBreadcrumbRouteList, permissionRouteList) => (
+        <Layout
+          table={routerTable}
+          extraBreadcrumbRouteList={extraBreadcrumbRouteList}
+          permissionRouteList={permissionRouteList}
+        />
       )}
     </LubanRouter>
   );

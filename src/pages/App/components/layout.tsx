@@ -15,12 +15,12 @@ import { BackendLayoutWrapper, BackendGlobalStyle } from "./../index.css";
 import { BasicRouterItem, NestedRouteItem } from "@/router/lib/definitions";
 
 interface LayoutProps {
-  table: ReactElement;
-  routeList: BasicRouterItem[];
+  table: ReactElement<any>[];
+  extraBreadcrumbRouteList: BasicRouterItem[];
   permissionRouteList: Array<NestedRouteItem>;
 }
 
-const Layout: FunctionComponent<LayoutProps> = ({ table, routeList, permissionRouteList }) => {
+const Layout: FunctionComponent<LayoutProps> = ({ table, extraBreadcrumbRouteList, permissionRouteList }) => {
   const { pathname } = useLocation();
 
   useChange(pathname);
@@ -40,7 +40,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ table, routeList, permissionRo
           navMenuCollapsedStatus={navMenuCollapsed}
           toggleNavMenuCollapse={() => setNavMenuCollapsed(!navMenuCollapsed)}
         />
-        <BreadCrumb routeList={routeList} />
+        <BreadCrumb extraBreadcrumbRouteList={extraBreadcrumbRouteList} />
         <div className="main-container">
           <Suspense fallback={<Loading />}>{table}</Suspense>
         </div>
