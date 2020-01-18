@@ -57,7 +57,11 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
 
   const extraBreadcrumbRouteList = useBreadCrumb(flattenRouteList);
 
-  let appRouter = <Suspense fallback={<span>loading</span>}>{routerTable}</Suspense>;
+  let appRouter = (
+    <Suspense fallback={<span>loading</span>}>
+      <Switch>{routerTable}</Switch>
+    </Suspense>
+  );
 
   let permissionRouteList: Array<NestedRouteItem> = [];
   if (role) {
@@ -65,7 +69,7 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
   }
 
   if (typeof customRender === "function") {
-    appRouter = customRender(routerTable, extraBreadcrumbRouteList, permissionRouteList);
+    appRouter = customRender(<Switch>{routerTable}</Switch>, extraBreadcrumbRouteList, permissionRouteList);
   }
 
   return appRouter;
@@ -90,15 +94,11 @@ const LubanRouter: FunctionComponent<LubanRouterProps> = ({ config, role, childr
 
   return mode === "browser" ? (
     <BrowserRouter basename={basename}>
-      <Switch>
-        <RouterTable {...RouteTableProps} />
-      </Switch>
+      <RouterTable {...RouteTableProps} />
     </BrowserRouter>
   ) : (
     <HashRouter {...hashRouterProps}>
-      <Switch>
-        <RouterTable {...RouteTableProps} />
-      </Switch>
+      <RouterTable {...RouteTableProps} />
     </HashRouter>
   );
 };

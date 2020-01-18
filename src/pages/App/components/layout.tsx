@@ -15,7 +15,7 @@ import { BackendLayoutWrapper, BackendGlobalStyle } from "./../index.css";
 import { BasicRouterItem, NestedRouteItem } from "@/router/lib/definitions";
 
 interface LayoutProps {
-  table: ReactElement<any>[];
+  table: ReactElement<any>;
   extraBreadcrumbRouteList: BasicRouterItem[];
   permissionRouteList: Array<NestedRouteItem>;
 }

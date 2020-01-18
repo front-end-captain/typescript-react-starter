@@ -55,6 +55,10 @@ function createRouterTable(
       return;
     }
 
+    if (route.path.includes("404")) {
+      return;
+    }
+
     const routeComponent = (
       <Route
         key={path}
@@ -68,9 +72,11 @@ function createRouterTable(
     table.push(routeComponent);
   });
 
-  const notFoundRoute = <Route path="*" key="*" exact component={NotFound} />;
+  const notFoundRoute = <Route path="/404" key="/404" exact component={NotFound} />;
+  table.unshift(notFoundRoute);
 
-  table.push(notFoundRoute);
+  const fallBackRoute = <Route path="*" key="*" component={NotFound} />;
+  table.push(fallBackRoute);
 
   return table;
 }

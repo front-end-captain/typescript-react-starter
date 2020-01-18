@@ -132,7 +132,7 @@ export interface LubanRouterProps {
   config: RouteConfig;
   role?: Role;
   children?: (
-    table: ReactElement<any>[],
+    table: ReactElement<any>,
     extraBreadcrumbRouteList: Array<BasicRouterItem>,
     permissionRouteList: Array<NestedRouteItem>,
   ) => ReactElement;

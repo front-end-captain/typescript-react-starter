@@ -1,7 +1,7 @@
 import React, { FunctionComponent, CSSProperties } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
-const DefaultNotFound: FunctionComponent<RouteComponentProps> = ({ location: { pathname } }) => {
+const DefaultNotFound: FunctionComponent<RouteComponentProps> = () => {
   const DefaultNotfoundStyle: CSSProperties = {
     width: "100%",
     height: "100%",
@@ -12,11 +12,7 @@ const DefaultNotFound: FunctionComponent<RouteComponentProps> = ({ location: { p
     color: "#ccc",
   };
 
-  return (
-    <div style={DefaultNotfoundStyle}>
-      The page&nbsp;&nbsp;<code>{pathname}</code>&nbsp;&nbsp;you visited is not found!
-    </div>
-  );
+  return <div style={DefaultNotfoundStyle}>The page you visited is not found!</div>;
 };
 
 export { DefaultNotFound };
