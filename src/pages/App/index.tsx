@@ -17,10 +17,10 @@ const App: FunctionComponent = () => {
 
   return (
     <LubanRouter config={routeConfig} role={getLocalUserRole()}>
-      {(routerTable, extraBreadcrumbRouteList, permissionRouteList) => (
+      {({ renderedTable, breadcrumbPathList, permissionRouteList }) => (
         <Layout
-          table={routerTable}
-          extraBreadcrumbRouteList={extraBreadcrumbRouteList}
+          table={renderedTable}
+          breadcrumbPathList={breadcrumbPathList}
           permissionRouteList={permissionRouteList}
         />
       )}

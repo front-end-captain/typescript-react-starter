@@ -128,12 +128,29 @@ export interface NestedRouteItem extends BasicRouterItem {
   children?: Array<NestedRouteItem>;
 }
 
+type CustomRenderParams = {
+  /**
+   * @type 已经渲染好的路由表
+   */
+  renderedTable: ReactElement<any>;
+  /**
+   * @type 面包屑路径
+   */
+  breadcrumbPathList: Array<BreadcrumbPath>;
+  /**
+   * 当前角色可访问的路由列表(嵌套结构)
+   */
+  permissionRouteList: Array<NestedRouteItem>;
+};
+
 export interface LubanRouterProps {
   config: RouteConfig;
   role?: Role;
-  children?: (
-    table: ReactElement<any>,
-    extraBreadcrumbRouteList: Array<BasicRouterItem>,
-    permissionRouteList: Array<NestedRouteItem>,
-  ) => ReactElement;
+  children?: (params: CustomRenderParams) => ReactElement;
+}
+
+export interface BreadcrumbPath {
+  name?: string;
+  path: string;
+  active: boolean;
 }

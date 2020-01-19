@@ -6,23 +6,37 @@ import { flattenRoutes, filterUnPermissionRoute } from "./util";
 import { createRouterTable } from "./createRouterTable";
 import { DefaultNotFound } from "./defaultNotFound";
 
-import { NestedRouteItem, LubanRouterProps, RouteComponent, BasicRouterItem, Role } from "./definitions";
+import {
+  NestedRouteItem,
+  LubanRouterProps,
+  RouteComponent,
+  BasicRouterItem,
+  Role,
+  BreadcrumbPath,
+} from "./definitions";
 
-function useBreadCrumb(routeList: Array<BasicRouterItem>): Array<BasicRouterItem> {
+function useBreadCrumb(routeList: Array<BasicRouterItem>): Array<BreadcrumbPath> {
   const { pathname } = useLocation();
 
-  const pathSnippets = pathname.split("/").filter((i) => i);
+  let pathSnippets = pathname.split("/");
 
-  // TODO current active match route add active property to route item
-  const extraBreadcrumbList = pathSnippets.map((_, index) => {
+  if (pathname !== "/") {
+    pathSnippets = pathname.split("/").filter((i) => i);
+  }
+
+  const breadcrumbPathList: Array<BreadcrumbPath> = [];
+
+  pathSnippets.forEach((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
 
-    return routeList.find((route) => pathToRegexp(route.path, [], { strict: false }).test(url));
+    const targetRoute = routeList.find((route) => pathToRegexp(route.path, [], { strict: false }).test(url));
+
+    if (targetRoute) {
+      breadcrumbPathList.push({ name: targetRoute.name, path: targetRoute.path, active: pathname === url });
+    }
   });
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  return extraBreadcrumbList.filter((route) => typeof route !== "undefined");
+  return breadcrumbPathList;
 }
 
 function findNotFoundComponent(routes: Array<NestedRouteItem>, defaultNotFound: RouteComponent): RouteComponent {
@@ -55,7 +69,7 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
 }) => {
   const routerTable = createRouterTable(flattenRouteList, role, notFoundComponent);
 
-  const extraBreadcrumbRouteList = useBreadCrumb(flattenRouteList);
+  const breadcrumbPathList = useBreadCrumb(flattenRouteList);
 
   let appRouter = (
     <Suspense fallback={<span>loading</span>}>
@@ -69,7 +83,11 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
   }
 
   if (typeof customRender === "function") {
-    appRouter = customRender(<Switch>{routerTable}</Switch>, extraBreadcrumbRouteList, permissionRouteList);
+    appRouter = customRender({
+      renderedTable: <Switch>{routerTable}</Switch>,
+      breadcrumbPathList,
+      permissionRouteList,
+    });
   }
 
   return appRouter;

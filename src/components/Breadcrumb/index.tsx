@@ -1,17 +1,17 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { FunctionComponent } from "react";
 
 import { Breadcrumb } from "antd";
 
 import { disabledColor, linkColor } from "@/style/theme.css";
 
-import { BasicRouterItem } from "@/router/lib/definitions";
+import { BreadcrumbPath } from "@/router/lib/definitions";
 
 interface BreadCrumbComponentProps {
-  extraBreadcrumbRouteList: BasicRouterItem[];
+  breadcrumbPathList: BreadcrumbPath[];
 }
 
-const BreadCrumb: FunctionComponent<BreadCrumbComponentProps> = ({ extraBreadcrumbRouteList }) => {
+const BreadCrumb: FunctionComponent<BreadCrumbComponentProps> = ({ breadcrumbPathList }) => {
   const style = {
     lineHeight: "48px",
     paddingLeft: "24px",
@@ -19,10 +19,10 @@ const BreadCrumb: FunctionComponent<BreadCrumbComponentProps> = ({ extraBreadcru
 
   return (
     <Breadcrumb style={style}>
-      {extraBreadcrumbRouteList.map((route: BasicRouterItem) => {
+      {breadcrumbPathList.map((route: BreadcrumbPath) => {
         return (
           <Breadcrumb.Item key={route.path}>
-            <Link to={route.path}>
+            <Link to={route.path} style={{ color: route.active ? linkColor : disabledColor }}>
               {route ? route.name : ""}
             </Link>
           </Breadcrumb.Item>
