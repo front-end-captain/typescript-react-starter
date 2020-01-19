@@ -1,19 +1,21 @@
 /* eslint-disable no-param-reassign */
 import { Store } from "@/library/store";
 
+type ListItem = { name: string };
+
 const counterStore = new Store({
   name: "counter",
   state: {
     count: 10,
     times: 100,
     visible: false,
-    list: [],
+    list: [] as Array<ListItem>,
   },
   reducers: {
-    init: (state, payload) => {
+    init: (state, payload: Array<ListItem>) => {
       state.list = payload;
     },
-    increment: (state, payload) => {
+    increment: (state, payload: number) => {
       if (payload) {
         state.count += payload;
         return;
@@ -27,12 +29,12 @@ const counterStore = new Store({
     addTimes: (state) => {
       state.times += 100;
     },
-    toggleVisible: (state, payload) => {
-      state.visible = payload as boolean;
+    toggleVisible: (state, payload: boolean) => {
+      state.visible = payload;
     },
   },
   effects: {
-    asyncIncrement: async (payload) => {
+    asyncIncrement: async (payload: number) => {
       await new Promise((resolve) => {
         setTimeout(() => {
           resolve();

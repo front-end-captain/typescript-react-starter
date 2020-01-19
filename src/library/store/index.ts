@@ -50,6 +50,7 @@ class Store<S, R extends Reducers<S>, E extends Effects> {
     });
   }
 
+  // TODO set a default selector
   public useStore<P>(selector: Selector<S, P>): P {
     const [state, setState] = useState(this.store);
 

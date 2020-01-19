@@ -1,10 +1,10 @@
 import React from "react";
+import { Modal } from "antd";
 
 import { counterStore } from "@/model/counter";
 
 const Counter = () => {
-  const count = counterStore.useStore((S) => S.count);
-  const times = counterStore.useStore((S) => S.times);
+  const { count, times, visible } = counterStore.useStore((S) => S);
 
   return (
     <div>
@@ -25,6 +25,14 @@ const Counter = () => {
       <button type="button" onClick={() => counterStore.dispatch((A) => A.toggleVisible, true)}>
         toggle
       </button>
+
+      <Modal
+        visible={visible}
+        onCancel={() => counterStore.dispatch((A) => A.toggleVisible, false)}
+        onOk={() => counterStore.dispatch((A) => A.toggleVisible, false)}
+      >
+        this is a modal
+      </Modal>
     </div>
   );
 };
