@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { NestedRouteItem, BasicRouterItem, Role } from "./definitions";
 
 function checkAuthority(role: Role, authority?: Array<string | number>): boolean {
@@ -21,6 +20,7 @@ function filterUnPermissionRoute(routes: Array<NestedRouteItem>, role: Role): Ar
     }
 
     if (Array.isArray(route.children) && route.children.length > 0) {
+      // eslint-disable-next-line no-param-reassign
       route.children = filterUnPermissionRoute(route.children, role);
     }
 

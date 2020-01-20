@@ -3,14 +3,12 @@
 // Definitions by: front-end-captain <https://github.com/front-end-captain>
 // TypeScript Version: 3.6.3
 
-import { ComponentType, LazyExoticComponent, ReactElement, FunctionComponent, ComponentClass } from "react";
+import { ComponentType, LazyExoticComponent, ReactElement } from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 export type RouteMetaData = Record<string | number | symbol, any>;
 type DefaultRouteProps = { meta?: RouteMetaData } & RouteComponentProps<any>;
-export type RouteComponent =
-  | ComponentType<DefaultRouteProps>
-  | LazyExoticComponent<FunctionComponent<any> | ComponentClass<any>>;
+export type RouteComponent = ComponentType<DefaultRouteProps> | LazyExoticComponent<ComponentType<DefaultRouteProps>>;
 
 /**
  * @description uses the HTML5 history API or uses the hash portion of the URL
@@ -42,6 +40,7 @@ export interface RouteConfig {
   basename?: string;
   /**
    * @description The type of encoding to use for window.location.hash.
+   * @see https://reacttraining.com/react-router/web/api/HashRouter/hashtype-string
    *  Available values are:
    * + "slash" - Creates hashes like #/ and #/sunshine/lollipops
    * + "noslash" - Creates hashes like # and #sunshine/lollipops
@@ -128,29 +127,29 @@ export interface NestedRouteItem extends BasicRouterItem {
   children?: Array<NestedRouteItem>;
 }
 
-type CustomRenderParams = {
+export interface MatchedRouterItem extends BasicRouterItem {
+  active: boolean;
+}
+
+type customRendererParams = {
   /**
-   * @type 已经渲染好的路由表
+   * @description 已经渲染好的路由表
    */
   renderedTable: ReactElement<any>;
   /**
-   * @type 面包屑路径
+   * @description 与当前路径匹配的路由集合，可用于创建面包屑导航
    */
-  breadcrumbPathList: Array<BreadcrumbPath>;
+  matchedRouteList: Array<MatchedRouterItem>;
   /**
-   * 当前角色可访问的路由列表(嵌套结构)
+   * @description 当前角色可访问的路由列表(嵌套结构)
    */
   permissionRouteList: Array<NestedRouteItem>;
 };
 
+type customRenderer = (params: customRendererParams) => ReactElement;
+
 export interface LubanRouterProps {
   config: RouteConfig;
   role?: Role;
-  children?: (params: CustomRenderParams) => ReactElement;
-}
-
-export interface BreadcrumbPath {
-  name?: string;
-  path: string;
-  active: boolean;
+  children?: customRenderer;
 }

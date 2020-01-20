@@ -12,10 +12,10 @@ import {
   RouteComponent,
   BasicRouterItem,
   Role,
-  BreadcrumbPath,
+  MatchedRouterItem,
 } from "./definitions";
 
-function useBreadCrumb(routeList: Array<BasicRouterItem>): Array<BreadcrumbPath> {
+function useMatchedRouteList(routeList: Array<BasicRouterItem>): Array<MatchedRouterItem> {
   const { pathname } = useLocation();
 
   let pathSnippets = pathname.split("/");
@@ -24,7 +24,7 @@ function useBreadCrumb(routeList: Array<BasicRouterItem>): Array<BreadcrumbPath>
     pathSnippets = pathname.split("/").filter((i) => i);
   }
 
-  const breadcrumbPathList: Array<BreadcrumbPath> = [];
+  const matchedRouteList: Array<MatchedRouterItem> = [];
 
   pathSnippets.forEach((_, index) => {
     const url = `/${pathSnippets.slice(0, index + 1).join("/")}`;
@@ -32,11 +32,11 @@ function useBreadCrumb(routeList: Array<BasicRouterItem>): Array<BreadcrumbPath>
     const targetRoute = routeList.find((route) => pathToRegexp(route.path, [], { strict: false }).test(url));
 
     if (targetRoute) {
-      breadcrumbPathList.push({ name: targetRoute.name, path: targetRoute.path, active: pathname === url });
+      matchedRouteList.push({ name: targetRoute.name, path: targetRoute.path, active: pathname === url });
     }
   });
 
-  return breadcrumbPathList;
+  return matchedRouteList;
 }
 
 function findNotFoundComponent(routes: Array<NestedRouteItem>, defaultNotFound: RouteComponent): RouteComponent {
@@ -69,7 +69,7 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
 }) => {
   const routerTable = createRouterTable(flattenRouteList, role, notFoundComponent);
 
-  const breadcrumbPathList = useBreadCrumb(flattenRouteList);
+  const matchedRouteList = useMatchedRouteList(flattenRouteList);
 
   let appRouter = (
     <Suspense fallback={<span>loading</span>}>
@@ -85,7 +85,7 @@ const RouterTable: FunctionComponent<RouterTableProps> = ({
   if (typeof customRender === "function") {
     appRouter = customRender({
       renderedTable: <Switch>{routerTable}</Switch>,
-      breadcrumbPathList,
+      matchedRouteList,
       permissionRouteList,
     });
   }
