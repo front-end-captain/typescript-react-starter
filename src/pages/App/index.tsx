@@ -2,7 +2,9 @@ import { hot } from "react-hot-loader/root";
 
 import React, { FunctionComponent } from "react";
 
-import { LubanRouter } from "@/router/lib";
+import { LubanRouter as Router } from "luban-router";
+
+// import { LubanRouter } from "@/router/lib";
 
 import { Layout } from "./components/layout";
 
@@ -16,7 +18,7 @@ const App: FunctionComponent = () => {
   // return <LubanRouter config={routeConfig} />;
 
   return (
-    <LubanRouter config={routeConfig} role={getLocalUserRole()}>
+    <Router config={routeConfig} role={getLocalUserRole()}>
       {({ renderedTable, matchedRouteList, permissionRouteList }) => (
         <Layout
           table={renderedTable}
@@ -24,7 +26,7 @@ const App: FunctionComponent = () => {
           permissionRouteList={permissionRouteList}
         />
       )}
-    </LubanRouter>
+    </Router>
   );
 };
 
